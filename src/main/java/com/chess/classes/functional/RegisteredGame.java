@@ -8,8 +8,8 @@ public class RegisteredGame {
 	protected String playerOneMove;
 	protected String playerTwoMove;
 	
-	protected boolean playerOneMessageAwait=false;
-	protected boolean playerTwoMessageAwait=false;
+	public int playerOneMessageAwait;
+	public int playerTwoMessageAwait;
 
 	private GameState stateOfGame = GameState.AWAIT_ON_ENGINES;
 	

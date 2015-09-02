@@ -1,5 +1,7 @@
 package com.chess.master;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Locale;
 
 import org.springframework.stereotype.Controller;
@@ -42,12 +44,23 @@ public class SingleGameController {
 	
 	/**
 	 * Odbiera ruch silnika z gry
+	 * @throws InterruptedException 
 	 */
-	@RequestMapping(value = "/Single/getMove/{NumberOfGame}/{NumberOfPlayer}", method = RequestMethod.GET)
+	@RequestMapping(value = "/Single/getMove/{NumberOfGame}/{NumberOfPlayer}", method = RequestMethod.POST)
 	public @ResponseBody String getMove(Locale locale, Model model, @PathVariable Integer NumberOfGame,
-			@PathVariable Integer NumberOfPlayer) {
-		
+			@PathVariable Integer NumberOfPlayer) throws InterruptedException {
+
 			DuoGame theGame = (DuoGame) MessagesQueue.getInstance().getGame(NumberOfGame);
-			return theGame.getOppositePlayerMove(NumberOfPlayer);
+			String oppositeMove;
+			long beforeMilis = System.currentTimeMillis();
+			do{
+				 oppositeMove = theGame.getOppositePlayerMove(NumberOfPlayer);
+				 Thread.sleep(200);
+			}
+			while(oppositeMove==null && beforeMilis-System.currentTimeMillis()<10000);
+			return oppositeMove;
 	}
+	
+	
+
 }

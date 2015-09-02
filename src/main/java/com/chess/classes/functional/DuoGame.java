@@ -10,17 +10,12 @@ public class DuoGame extends RegisteredGame {
 	 */
 	@Override
 	public void setEngineMove(Integer numberOfEngine, String move){
-		System.out.println("Jestem w");
 		if(numberOfEngine.equals(1)){
+			playerOneMessageAwait = 1;
 			playerOneMove = move;
-			playerTwoMove = null;
-			playerOneMessageAwait=true;
-			playerTwoMessageAwait=false;
 		}else if(numberOfEngine.equals(2)){
 			playerTwoMove = move;
-			playerOneMove = null;
-			playerTwoMessageAwait=true;
-			playerOneMessageAwait=false;
+			playerTwoMessageAwait = 1;
 		}
 	}
 	
@@ -32,15 +27,11 @@ public class DuoGame extends RegisteredGame {
 	@Override
 	public String getOppositePlayerMove(int numberOfPlayerWhoSendRequest){
 		
-		if(numberOfPlayerWhoSendRequest==1 && playerTwoMessageAwait){
-			playerOneMessageAwait=false;
-			playerTwoMessageAwait=false;
-			playerOneMove=null;
+		if(numberOfPlayerWhoSendRequest==1 && playerTwoMessageAwait==1){
+			playerTwoMessageAwait=0;
 			return playerTwoMove;
-		} else if(numberOfPlayerWhoSendRequest==2 && playerOneMessageAwait){
-			playerOneMessageAwait=false;
-			playerTwoMessageAwait=false;
-			playerTwoMove=null;
+		} else if(numberOfPlayerWhoSendRequest==2 && playerOneMessageAwait==1){
+			playerOneMessageAwait=0;
 			return playerOneMove;
 		}
 		return null;
